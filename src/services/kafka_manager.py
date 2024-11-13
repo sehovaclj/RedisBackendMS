@@ -13,10 +13,13 @@ from confluent_kafka import Consumer, KafkaError, Message
 
 from src.config.logging import LoggingConfig
 from src.config.kafka import KafkaConfig
-from src.services.redis_manager import store_and_publish_redis
+from src.services.redis_manager import RedisManager
 
 # Configure the logger
 logger = LoggingConfig.get_logger(__name__)
+
+# initialize redis manager
+redis_manager = RedisManager()
 
 
 def handle_kafka_error(msg: Message) -> None:
@@ -51,7 +54,7 @@ def process_message(msg: Message) -> None:
     logger.info(
         "Received message in topic: %s [%d]",
         msg.topic(), msg.partition())
-    store_and_publish_redis(msg_dict)
+    redis_manager.store_and_publish_redis(msg_dict)
 
 
 def start_consumer() -> None:
