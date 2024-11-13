@@ -42,8 +42,8 @@ class RedisManager:
         Fetch existing battery IDs from Redis or initialize
             if not present.
         """
-        battery_ids = self.redis_client.lrange(
-            self.battery_ids_key, 0, -1)
+        battery_ids = self.redis_client.smembers(
+            self.battery_ids_key)  # Fetch from set
         if not battery_ids:  # If list is empty or doesn't exist
             return []
         return [int(bid) for bid in battery_ids]
@@ -61,11 +61,11 @@ class RedisManager:
         # build our redis key
         redis_key = f"battery:{battery_id}:data"
 
-        # Check if battery_id is in our list, and if not,
-        # add it to Redis and local list
+        # Check if battery_id is in our local list, and if not,
+        # add it to Redis set and local list
         if battery_id not in self.battery_ids:
-            self.redis_client.rpush(self.battery_ids_key,
-                                    battery_id)  # Append to Redis list
+            self.redis_client.sadd(self.battery_ids_key,
+                                   battery_id)  # Add to Redis set
             self.battery_ids.append(battery_id)  # Update local list
 
         # store message
