@@ -6,6 +6,8 @@ Functions:
         if the connection fails.
 """
 
+from src.db.connection import connect_to_redis
+
 # initialize the connection to redis
 redis_client = connect_to_redis()
 

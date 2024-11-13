@@ -3,7 +3,7 @@ Unit tests for Redis functions.
 """
 
 import pytest
-from src.utils.db_utils import connect_to_redis
+from src.db.connection import connect_to_redis
 
 
 @pytest.mark.db_utils

@@ -13,7 +13,7 @@ from confluent_kafka import Consumer, KafkaError, Message
 
 from src.config.logging import LoggingConfig
 from src.config.kafka import KafkaConfig
-from src.utils.db_utils import store_and_publish_redis
+from src.services.redis_manager import store_and_publish_redis
 
 # Configure the logger
 logger = LoggingConfig.get_logger(__name__)
